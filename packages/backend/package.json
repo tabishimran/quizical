@@ -1,0 +1,19 @@
+{
+  "name": "quizical-backend",
+  "version": "1.0.0",
+  "description": "backend apis for quizical",
+  "main": "index.js",
+  "author": "Tabish Imran",
+  "license": "MIT",
+  "dependencies": {
+    "@hapi/hapi": "^20.1.2",
+    "@types/hapi": "^18.0.5",
+    "@types/mongoose": "^5.10.5",
+    "mongoose": "^5.12.7",
+    "nodemon": "^2.0.7"
+  },
+  "scripts": {
+    "start": "./node_modules/nodemon/bin/nodemon.js -e ts  --exec \"yarn run compile\"",
+    "compile": "tsc && node ./dist/server.js"
+  }
+}
