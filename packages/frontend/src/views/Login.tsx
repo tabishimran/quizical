@@ -7,7 +7,7 @@ import fetch from 'node-fetch';
 
 function Login() {
   async function auth(){
-    const response = await fetch("http://localhost:4000/login",{method:'GET'});
+    const response = await fetch("/api/login",{method:'GET'});
     const data = await response.json()
     console.log(data);
   }
