@@ -2,10 +2,15 @@ import React from 'react';
 import '../css/App.css';
 import Grid from '@material-ui/core/Grid';
 import { Button, Typography } from '@material-ui/core';
-
+import fetch from 'node-fetch';
 
 
 function Login() {
+  async function auth(){
+    const response = await fetch("http://localhost:4000/login",{method:'GET'});
+    const data = await response.json()
+    console.log(data);
+  }
 
   return (
     <div className="Login">
@@ -15,7 +20,7 @@ function Login() {
           <Typography variant="h1">Quizical</Typography>
         </Grid>
         <Grid item>
-          <Button variant="contained" size="large" color="primary" style={{color:"white", marginTop:"4rem",borderRadius:"10%/50%"}}>
+          <Button variant="contained" size="large" color="primary" onClick={auth} style={{color:"white", marginTop:"4rem",borderRadius:"10%/50%"}}>
             Login with Spotify
           </Button>
         </Grid>
