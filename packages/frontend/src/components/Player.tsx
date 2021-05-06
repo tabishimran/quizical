@@ -46,7 +46,7 @@ function Player(){
 
     useEffect(() => {
         window.onSpotifyWebPlaybackSDKReady = function(){
-            const token = 'BQBYnZCoZrdA0v4ZAovN9b6fxkg5U6WdfdWCHme1V4mMURE3xGmww1xTmOThyFn7V2Nzq_TTf2S_BnE-Y-_usQK4RA6Omr-ZAhvnDwIP9v9KdPskxY-oDS6rQBa3YLc2NE4XvtaC-eX3OpM1JTqIN1M-4kioU3pKaBrq3MsXNpTpt0CePW0JfqRDOuo';
+            const token = '';
             const player = new window.Spotify.Player({
               name: 'Quizical',
               getOAuthToken: (cb: (arg0: string) => void) => { cb(token); }
