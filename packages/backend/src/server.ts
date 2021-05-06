@@ -7,7 +7,7 @@ const init = async () => {
         port: 4000,
         host: '0.0.0.0'
     });
-
+    server.realm.modifiers.route.prefix = '/api';
     server.route(routes);
 
 
