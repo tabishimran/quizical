@@ -2,14 +2,11 @@ import React from 'react';
 import '../css/App.css';
 import Grid from '@material-ui/core/Grid';
 import { Button, Typography } from '@material-ui/core';
-import fetch from 'node-fetch';
 
 
 function Login() {
   async function auth(){
-    const response = await fetch("/api/login",{method:'GET'});
-    const data = await response.json()
-    console.log(data);
+    window.location.href= 'https://quizical.tabishimran.com/api/login';
   }
 
   return (
