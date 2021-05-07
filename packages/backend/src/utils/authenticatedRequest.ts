@@ -1,5 +1,6 @@
 import fetch,{Headers} from 'node-fetch'
 
+const _ = require('lodash');
 const User = require('../models/user');
 
 async function request(url,session,method='GET'){
@@ -8,12 +9,12 @@ async function request(url,session,method='GET'){
     var headers = await generateHeader(user.tokens);
     const response = await fetch(url,{method:method,headers:headers});
     const dataObj = await response.json();
-    if(dataObj.error.message=="The access token expired"){
-        console.log("token expired");
-        var tokens = await refreshTokens(user);
-        headers = await generateHeader(tokens);
-        const response = await fetch(url,{method:method,headers:headers});
-        const dataObj = await response.json();
+    if(_.get(dataObj,'error.message')=="The access token expired"){
+            console.log("token expired, refreshing");
+            var tokens = await refreshTokens(user);
+            headers = await generateHeader(tokens);
+            const response = await fetch(url,{method:method,headers:headers});
+            const dataObj = await response.json();
     }
     return dataObj;
 }
