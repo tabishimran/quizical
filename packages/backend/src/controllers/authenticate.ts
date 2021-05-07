@@ -18,15 +18,14 @@ module.exports = async function authenticate(request ,reply){
     userData.tokens = tokens;
 
     // create account if it doesn't exist
-    var userInfo = createUser(userData);
+    await createUser(userData);
     var userName = userData.display_name;
     var uri = userData.uri;
     request.cookieAuth.set({ id: uri,name:userName });
-    console.log({id:uri,name:userName});
 
     // create and set cookies 
 
-    return reply.redirect('/api/search');
+    return reply.redirect('/main');
 }
 
 
@@ -52,23 +51,18 @@ async function getUserInfo(access_token){
 
 async function createUser(userData){
     var user = await User.findOne({uri:userData.uri});
-    console.log(user);
     if(user){
-        console.log("existing user");
-        user.tokens = userData.tokens;
-        await User.findOne({uri:userData.uri},{tokens:userData.tokens})
-
+        // update tokens if the user is already in the DB
+        await User.findOneAndUpdate({uri:userData.uri},{tokens:userData.tokens})
     }
     else{
-        console.log('new user');
+        // add user to mongo
         var userObj = await generatePayload(userData);
         const newUser = new User(userObj);
         newUser.save(function(error,user){
             if(error){console.log(error)}
-            return userData
         })
     }
-    return userData;
 }
 
 async function generatePayload(userData){
