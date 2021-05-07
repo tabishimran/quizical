@@ -1,7 +1,7 @@
 import fetch,{Headers} from 'node-fetch'
 import {Request,ResponseToolkit} from 'hapi';
 
-module.exports = async function authenticate(request: Request ,reply : ResponseToolkit){
+module.exports = async function authenticate(request ,reply){
     // check if code was returned
     var code = request.query.code;
     if(!code) return reply.response(request.query.error).code(401);
@@ -16,10 +16,14 @@ module.exports = async function authenticate(request: Request ,reply : ResponseT
 
     // create account if it doesn't exist
     var userInfo = createUser(userData);
+    var userName = userData.display_name;
+    var uri = userData.uri;
+    request.cookieAuth.set({ id: uri,name:userName });
+    console.log({id:uri,name:userName});
 
     // create and set cookies 
 
-    return userInfo;
+    return reply.redirect('/search');
 }
 
 
