@@ -1,6 +1,6 @@
 'use strict';
 
-var scopes = 'user-read-private user-read-email streaming user-top-read user-follow-modify';
+var scopes = 'user-read-private user-read-email streaming user-top-read user-follow-read';
 var my_client_id = process.env.spotify_client_id;
 
 module.exports = {
