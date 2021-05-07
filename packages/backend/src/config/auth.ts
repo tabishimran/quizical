@@ -5,7 +5,7 @@ const authConfig = {
         isSecure:true
     },
     validateFunc: async(request,session) =>{
-        return true;
+        return {valid:true,credentials:{}};
     }
 }
 
