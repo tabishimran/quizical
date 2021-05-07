@@ -1,6 +1,8 @@
 import fetch,{Headers} from 'node-fetch'
 import {Request,ResponseToolkit} from 'hapi';
 
+const User = require('../models/user');
+
 module.exports = async function authenticate(request ,reply){
     // check if code was returned
     var code = request.query.code;
@@ -13,6 +15,7 @@ module.exports = async function authenticate(request ,reply){
     // generate userdata 
     var userData = await getUserInfo(tokens.access_token);
     if(userData.error) return reply.response(userData.error).code(401);
+    userData.tokens = tokens;
 
     // create account if it doesn't exist
     var userInfo = createUser(userData);
@@ -48,6 +51,36 @@ async function getUserInfo(access_token){
 }
 
 async function createUser(userData){
+    var user = await User.findOne({uri:userData.uri});
+    console.log(user);
+    if(user){
+        console.log("existing user");
+        user.tokens = userData.tokens;
+        await User.findOne({uri:userData.uri},{tokens:userData.tokens})
+
+    }
+    else{
+        console.log('new user');
+        var userObj = await generatePayload(userData);
+        const newUser = new User(userObj);
+        newUser.save(function(error,user){
+            if(error){console.log(error)}
+            return userData
+        })
+    }
     return userData;
+}
+
+async function generatePayload(userData){
+    var payload = {
+        name:userData.display_name,
+        country:userData.country,
+        email:userData.email,
+        uri:userData.uri,
+        product:userData.product,
+        tokens:userData.tokens
+    }
+    return payload;
+
 }
 
