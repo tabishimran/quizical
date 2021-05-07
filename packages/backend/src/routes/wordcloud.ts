@@ -1,4 +1,4 @@
-const wordcloud = require('../controllers/search');
+const wordcloud = require('../controllers/wordcloud');
 
 module.exports = {
     method: 'GET',
