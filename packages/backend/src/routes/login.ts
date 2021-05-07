@@ -6,7 +6,11 @@ var my_client_id = process.env.spotify_client_id;
 module.exports = {
     method: 'GET',
     path: '/login',
-    config:{cors:true},
+    options:{
+        auth:{
+            mode:'try'
+        }
+    },
     handler: (request, reply) => {
         return reply.redirect('https://accounts.spotify.com/authorize' +
         '?response_type=code' +
