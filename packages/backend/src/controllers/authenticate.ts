@@ -23,7 +23,7 @@ module.exports = async function authenticate(request ,reply){
 
     // create and set cookies 
 
-    return reply.redirect('/search');
+    return reply.redirect('/api/search');
 }
 
 
