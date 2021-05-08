@@ -7,7 +7,8 @@ module.exports = async function search(request,reply){
     params.append('type','artist');
     params.append('limit','10');
     params.append('q',request.query.key);
-    const searchURL = "https://api.spotify.com/v1/search";
-    const data = authenticatedRequest(searchURL,session,{body:params})
+    const searchURL = new URL("https://api.spotify.com/v1/search")
+    searchURL.search = params.toString()
+    const data = authenticatedRequest(searchURL.toString(),session,{method:'GET'})
     return reply.response(data);
 }
