@@ -1,7 +1,7 @@
 const loginRoute = require('./login');
 const authenticateRoute = require('./authenticate');
 const searchRoute = require('./search');
-const wordcloudRoute = require('./wordcloud');
+const imageGridRoute = require('./grid');
 
-module.exports= [].concat(loginRoute,authenticateRoute,searchRoute,wordcloudRoute);
+module.exports= [].concat(loginRoute,authenticateRoute,searchRoute,imageGridRoute);
 
