@@ -1,3 +1,5 @@
+const User = require('../models/user');
+
 const authConfig = {
     cookie:{
         password: process.env.quizical_cookie_password,
@@ -5,7 +7,10 @@ const authConfig = {
         isSecure:true
     },
     validateFunc: async(request,session) =>{
-        return {valid:true,credentials:{}};
+        const uri = session.sid.id;
+        const user = await User.findOne({'uri':uri});
+        if(user) return {valid:true};
+        else return {valid:false}
     }
 }
 
