@@ -1,9 +1,11 @@
 import React from 'react';
 import '../css/App.css';
 import Login from './Login';
-import Main from './Main';
+import Menu from './Menu';
+import Search from './Search'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import Quiz from './Quiz';
 
 const theme = createMuiTheme({
   palette: {
@@ -23,7 +25,10 @@ function App() {
         <Router>
           <Switch>
             <Route path='/login' component={Login}></Route>
-            <Route path='/main' component={Main}></Route>
+            <Route path='/menu' component={Menu}></Route>
+            <Route path='/search' component={Search}></Route>
+            <Route path='/quiz' component={Quiz}></Route>
+            <Route path='/error' component={Search}></Route>
           </Switch>
         </Router>
       </MuiThemeProvider>
