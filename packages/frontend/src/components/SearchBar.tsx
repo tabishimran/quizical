@@ -1,6 +1,9 @@
 import { createStyles, fade, FormControl, Grid, InputBase, makeStyles, Theme, Typography, withStyles } from '@material-ui/core';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import fetch from 'node-fetch';
 import '../css/App.css';
+import { useHistory } from 'react-router-dom';
+
 
 const BootstrapInput = withStyles((theme: Theme) =>
   createStyles({
@@ -13,12 +16,12 @@ const BootstrapInput = withStyles((theme: Theme) =>
       position: 'relative',
       backgroundColor: theme.palette.common.white,
       border: '1px solid #ced4da',
-      borderRadius:"10%/50%",
+      borderRadius: "10%/50%",
       fontSize: 16,
       width: 'auto',
       padding: '10px 12px',
       margin: '4rem',
-      marginTop:'1rem',
+      marginTop: '1rem',
       transition: theme.transitions.create(['border-color', 'box-shadow']),
       // Use the system font instead of the default Roboto font.
       fontFamily: [
@@ -47,26 +50,53 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 
-function SearchBar(){
+function SearchBar() {
+  const history = useHistory();
+  const classes = useStyles();
+  const [tileData, setTileData] = useState([]);
+  const [searchBarText, setSearchBarText] = useState<string>('');
 
-    const classes = useStyles();
+  useEffect(() => {
+    async function search() {
+      if (searchBarText.length % 2 == 0) {
+        const searchURL = new URL("https://quizical.tabishimran.com/api/search")
+        const params = new URLSearchParams();
+        params.append('key', searchBarText);
+        searchURL.search = params.toString();
+        const response = await fetch(searchURL.toString());
+        if (response.status == 401) {
+          history.push('/login');
+        }
+        else {
+          const data = await response.json();
+          setTileData(data);
+        }
+      }
+    }
+    search();
+  }, [searchBarText])
 
-    return(
-        <div className="searchBar">
-            <form className={classes.root} noValidate>
-                <FormControl className={classes.margin}>
-                    <Grid container justify="center" alignItems="center">
-                        <Grid item xs={12}>
-                          <Typography variant="h5" style={{color:"white",marginTop:'1rem'}} > Pick an artist</Typography>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <BootstrapInput id="bootstrap-input"></BootstrapInput>
-                        </Grid>
-                    </Grid>
-                </FormControl>
-            </form>
-        </div>
-    );
+  return (
+    <div className="searchBar">
+      <form className={classes.root} noValidate>
+        <FormControl className={classes.margin}>
+          <Grid container justify="center" alignItems="center">
+            <Grid item xs={12}>
+              <Typography variant="h5" style={{ color: "white", marginTop: '1rem' }} > Pick an artist</Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <BootstrapInput id="bootstrap-input" onChange={(e) => {
+                console.log(e.target.value);
+                setSearchBarText(e.target.value);
+              }}>
+
+              </BootstrapInput>
+            </Grid>
+          </Grid>
+        </FormControl>
+      </form>
+    </div>
+  );
 }
 
 export default SearchBar;
