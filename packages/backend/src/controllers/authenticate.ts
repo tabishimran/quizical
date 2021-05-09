@@ -25,7 +25,7 @@ module.exports = async function authenticate(request ,reply){
 
     // create and set cookies 
 
-    return reply.redirect('/main');
+    return reply.redirect('/search');
 }
 
 
