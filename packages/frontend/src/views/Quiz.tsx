@@ -1,16 +1,19 @@
-import { Button, Grid } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import React from 'react';
 import Options from '../components/Options';
 import Question from '../components/Question';
 import QuizNav from '../components/QuizNav';
 import Player from '../components/Player';
 import '../css/App.css';
+import NavBar from '../components/NavBar';
 
 
 function Quiz(){
 
 
     return(
+        <div>
+        <NavBar></NavBar>
         <div className="container">
             <div className="view">
                 <Grid 
@@ -39,6 +42,7 @@ function Quiz(){
                     </Grid>
                 </Grid>
             </div>
+        </div>
         </div>
     );
 

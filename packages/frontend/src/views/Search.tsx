@@ -1,10 +1,13 @@
-import { Divider, Grid, Typography } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import '../css/App.css';
 import SearchBar from '../components/SearchBar';
 import ImageGrid from "../components/ImageGrid";
+import NavBar from "../components/NavBar";
 
 function Search() {
   return (
+    <div>
+      <NavBar></NavBar>
     <div className="container">
       <div className="view">
         <Grid
@@ -25,6 +28,7 @@ function Search() {
           {/* </div> */}
         </Grid>
       </div>
+    </div>
     </div>
   );
 }
