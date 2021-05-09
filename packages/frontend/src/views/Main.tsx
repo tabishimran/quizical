@@ -16,8 +16,8 @@ function Main() {
           </Typography>
         </Toolbar>
       </AppBar>
-      {/* <Search></Search> */}
-      <Quiz></Quiz>
+      <Search></Search>
+      {/* <Quiz></Quiz> */}
     </div>
   );
 }
