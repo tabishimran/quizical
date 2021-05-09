@@ -7,7 +7,7 @@ const authConfig = {
         isSecure:true
     },
     validateFunc: async(request,session) =>{
-        const uri = session.sid.id;
+        const uri = session.id;
         const user = await User.findOne({'uri':uri});
         if(user) return {valid:true};
         else return {valid:false}
