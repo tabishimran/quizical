@@ -22,7 +22,7 @@ function App() {
       <MuiThemeProvider theme={theme}>
         <Router>
           <Switch>
-            <Route path='/login' component={Login}></Route>
+            <Route path='/' component={Login}></Route>
             <Route path='/main' component={Main}></Route>
           </Switch>
         </Router>
