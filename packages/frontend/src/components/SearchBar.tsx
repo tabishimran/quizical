@@ -1,4 +1,5 @@
-import { createStyles, fade, FormControl, Grid, InputBase, makeStyles, Theme, withStyles } from '@material-ui/core';
+import { createStyles, fade, FormControl, Grid, InputBase, makeStyles, Theme, Typography, withStyles } from '@material-ui/core';
+import React from 'react';
 import '../css/App.css';
 
 const BootstrapInput = withStyles((theme: Theme) =>
@@ -37,6 +38,7 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       display: 'flex',
       flexWrap: 'wrap',
+      marginTop: '4rem'
     },
     margin: {
       margin: theme.spacing(1),
@@ -53,8 +55,11 @@ function SearchBar(){
         <div className="searchBar">
             <form className={classes.root} noValidate>
                 <FormControl className={classes.margin}>
-                    <Grid container justify="center">
-                        <Grid item>
+                    <Grid container justify="center" alignItems="center">
+                        <Grid item xs={12}>
+                          <Typography variant="h5" style={{color:"white",marginTop:'1rem'}} > Pick an artist</Typography>
+                        </Grid>
+                        <Grid item xs={12}>
                             <BootstrapInput id="bootstrap-input"></BootstrapInput>
                         </Grid>
                     </Grid>
