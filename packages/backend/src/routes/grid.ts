@@ -1,8 +1,8 @@
-const wordcloud = require('../controllers/wordcloud');
+const wordcloud = require('../controllers/grid');
 
 module.exports = {
     method: 'GET',
-    path: '/wordcloud',
+    path: '/grid',
     options:{
         auth:{
             mode:'required'
