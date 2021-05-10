@@ -13,7 +13,7 @@ module.exports = async function grid(request,reply:ResponseToolkit){
 }
 
 async function generateImageGrid(topArtists){
-    var artists = topArtists.artists.items;
+    var artists = topArtists.items;
     var imageGrid =  artists.map(function(artist){
         var image = artist.images[0];
         return {
