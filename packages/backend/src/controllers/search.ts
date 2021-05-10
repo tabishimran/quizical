@@ -10,7 +10,7 @@ module.exports = async function search(request, reply) {
     const searchURL = new URL("https://api.spotify.com/v1/search")
     searchURL.search = params.toString()
     const data = await authenticatedRequest(searchURL.toString(), session, { method: 'GET' })
-    const searchResults = generateSearchResults(data);
+    const searchResults = await generateSearchResults(data);
     return reply.response(searchResults);
 }
 
