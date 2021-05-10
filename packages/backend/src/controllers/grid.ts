@@ -5,7 +5,7 @@ const authenticatedRequest = require('../utils/authenticatedRequest');
 
 module.exports = async function grid(request,reply:ResponseToolkit){
     const session = request.state;
-    const topArtistsURL = "https://api.spotify.com/v1/me/following?type=artist&limit=50";
+    const topArtistsURL = "https://api.spotify.com/v1/me/top/artists?limit=50";
     const options = {method:'GET'}
     const topArtists = await authenticatedRequest(topArtistsURL,session,options);
     const imageGrid = await generateImageGrid(topArtists);
