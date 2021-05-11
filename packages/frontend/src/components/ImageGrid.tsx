@@ -6,7 +6,8 @@ import GridListTile from '@material-ui/core/GridListTile';
 import { Button, Card, CardMedia, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, makeStyles, useTheme } from '@material-ui/core';
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Redirect} from 'react-router-dom';
+
 
 interface widthProp {
     width: Breakpoint
@@ -47,6 +48,14 @@ function ImageGrid(props: widthProp) {
     const handleClose = () => {
         setOpen(false);
     };
+
+    const startQuiz = () =>{
+        setOpen(false);
+        setTimeout(()=>{
+            history.push('/quiz')
+        },1000)
+    }
+
     useEffect(() => {
         async function getArtists() {
             const response = await fetch("https://quizical.tabishimran.com/api/grid");
@@ -95,7 +104,7 @@ function ImageGrid(props: widthProp) {
                     </Card>
                 </DialogContent>
                 <DialogActions disableSpacing={true} style={{justifyContent:"center",alignItems:"center"}}>
-                    <Button variant="contained" size="large" color="primary" onClick={handleClose} style={{ color: "white", margin:"1rem", borderRadius: "16%/50%" }}>
+                    <Button variant="contained" size="large" color="primary" onClick={startQuiz} style={{ color: "white", margin:"1rem", borderRadius: "16%/50%" }}>
                         Start Quiz
                     </Button>
                 </DialogActions>
