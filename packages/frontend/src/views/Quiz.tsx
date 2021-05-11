@@ -6,10 +6,10 @@ import QuizNav from '../components/QuizNav';
 import Player from '../components/Player';
 import '../css/App.css';
 import NavBar from '../components/NavBar';
+import LoadingScreen from '../components/LoadScreen';
 
 
 function Quiz(){
-
 
     return(
         <div>
@@ -23,7 +23,7 @@ function Quiz(){
                     alignItems="center" 
                     style={{textAlign:"center",height:'100%'}} 
                 >
-                    <Grid item style={{backgroundColor:"#191414"}}>
+                    {/* <Grid item style={{backgroundColor:"#191414"}}>
                         <QuizNav></QuizNav>
                     </Grid>
                     <Grid item style={{marginTop:'2rem'}}>
@@ -31,15 +31,11 @@ function Quiz(){
                     </Grid>
                     <Grid item style={{marginTop:'2rem'}}>
                         <Options></Options>
-                    </Grid>
-                    {/* <Grid item style={{marginTop:'2rem'}}>
-                        <Button variant="contained" size="large" color="primary" style={{color:"white", marginTop:"4rem",borderRadius:"20%/50%"}}>
-                            Submit
-                        </Button>
                     </Grid> */}
-                    <Grid item style={{marginTop:'2rem'}}>
+                    <LoadingScreen></LoadingScreen>
+                    {/* <Grid item style={{marginTop:'2rem'}}>
                         <Player></Player>
-                    </Grid>
+                    </Grid> */}
                 </Grid>
             </div>
         </div>
