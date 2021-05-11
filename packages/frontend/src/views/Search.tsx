@@ -24,7 +24,7 @@ function Search() {
           <Grid item>
             <SearchBar></SearchBar>
           </Grid>
-            <Grid item style={{overflowY:"auto",height:"1024px"}}>
+            <Grid item style={{overflowY:"auto",height:"100vh"}}>
               <ImageGrid ></ImageGrid>
             </Grid>
         </Grid>
