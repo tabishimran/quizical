@@ -7,9 +7,16 @@ import Player from '../components/Player';
 import '../css/App.css';
 import NavBar from '../components/NavBar';
 import LoadingScreen from '../components/LoadScreen';
+import { useParams } from 'react-router';
 
+type quizParams={
+    artistUri:string
+}
 
 function Quiz(){
+
+    const params = useParams<quizParams>();
+    console.log(params.artistUri)
 
     return(
         <div>
