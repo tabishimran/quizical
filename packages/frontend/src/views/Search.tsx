@@ -3,8 +3,11 @@ import '../css/App.css';
 import SearchBar from '../components/SearchBar';
 import ImageGrid from "../components/ImageGrid";
 import NavBar from "../components/NavBar";
+import { useState } from "react";
 
 function Search() {
+
+  const [grid,setGridData] = useState<tile[]>([]);
   return (
     <div>
       <NavBar></NavBar>
@@ -21,11 +24,9 @@ function Search() {
           <Grid item>
             <SearchBar></SearchBar>
           </Grid>
-          {/* <div className="scrollable"> */}
-            <Grid item style={{overflowY:"auto",height:"1024px "}}>
+            <Grid item style={{overflowY:"auto",height:"1024px"}}>
               <ImageGrid ></ImageGrid>
             </Grid>
-          {/* </div> */}
         </Grid>
       </div>
     </div>
