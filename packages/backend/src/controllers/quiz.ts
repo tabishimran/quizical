@@ -14,7 +14,7 @@ module.exports = async function getQuiz(request, reply: ResponseToolkit) {
 }
 
 async function getAlbums(artistId, session) {
-    const data = await authenticatedRequest("https://api.spotify.com/v1/artists/" + artistId + "/albums?include_groups=appears_on,album,single&market=from_token&limit=50", session, { method: 'GET' });
+    const data = await authenticatedRequest("https://api.spotify.com/v1/artists/" + artistId + "/albums?include_groups=album,single&market=from_token&limit=50", session, { method: 'GET' });
     const albums = data.items.map(function (album) {
         return {
             name: album.name,
@@ -27,12 +27,8 @@ async function getAlbums(artistId, session) {
     return albums;
 }
 
-async function getRelatedArtists() {
-
-}
-
 async function getTracks(albums, session) {
-    var tracks = []
+    var tracks = [];
     for (var i = 0; i < albums.length; i++) {
         var album = albums[i];
         if (album.type == "single" || album.type == "album") {
@@ -65,36 +61,26 @@ async function getTracks(albums, session) {
     return trackSet;
 }
 
+// currently only creates identify type questions
 async function createQuestions(artistSongs) {
     var numberOfQuestions = 10;
     var numberOfOptions = 4;
-    var option:{
-        question:"",
-        answer:"",
-        audio:"",
-        options:[
-            a:"",
-            b:"",
-            c:"",
-            d:""
-        ]
-    }
-    var songs = pickRandomSongs(artistSongs,numberOfOptions);
-    var questions = songs.map(function(song){
-        var options = pickRandomSongs(artistSongs,3)
-        options = options.concat(song)
-        options = options.map((song)=>{
-            return song.name
+    var trackList = pickRandomSongs(artistSongs,numberOfQuestions);
+    var questions = trackList.map(function(track){
+        var options = pickRandomSongs(artistSongs,4)
+        options = options.filter(option=> option.name!=track.name)
+        if(options.length==4) options.pop();
+        options = options.concat(track)
+        options = options.map((track)=>{
+            return track.name
         })
         options.sort(()=>Math.random()-0.5);
         return {
             question:"Identify the song",
-            answer:song.name,
-            audio:song.preview,
+            answer:track.name,
+            audio:track.preview,
             options:options
         }
     })
     return questions;
-    // pick options for the song
-    // find all collaborators 
 }
