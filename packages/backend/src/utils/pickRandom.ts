@@ -1,8 +1,8 @@
 
-module.exports = function pickRandomSongs(inputList,number,filterFunction={}){
+module.exports = function pickRandomSongs(inputList,number,filterFunction:Function){
     var output = [];
     var input = inputList
-    if(filterFunction!={}){
+    if(filterFunction!=undefined){
         input = input.filter(filterFunction)
     }
     while(output.length!=number){
