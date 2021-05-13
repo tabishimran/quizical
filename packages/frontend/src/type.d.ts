@@ -12,3 +12,11 @@ type tile={
     imgWidth:number,
     uri: string
 }
+
+type question={
+    question:string,
+    answer:string,
+    audio:string,
+    options:string[]
+}
+
