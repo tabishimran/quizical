@@ -6,7 +6,7 @@ import GridListTile from '@material-ui/core/GridListTile';
 import { Button, Card, CardMedia, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, makeStyles, useTheme } from '@material-ui/core';
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
-import { useHistory, Redirect} from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 
 interface widthProp {
@@ -49,11 +49,11 @@ function ImageGrid(props: widthProp) {
         setOpen(false);
     };
 
-    const startQuiz = () =>{
+    const startQuiz = () => {
         setOpen(false);
-        setTimeout(()=>{
-            history.push('/quiz')
-        },1000)
+        setTimeout(() => {
+            history.push('/quiz/' + selectedArtist.uri)
+        }, 1000)
     }
 
     useEffect(() => {
@@ -63,7 +63,6 @@ function ImageGrid(props: widthProp) {
                 history.push('/login');
             } else {
                 const data = await response.json();
-                console.log(data);
                 setTileData(data);
             }
         }
@@ -91,20 +90,20 @@ function ImageGrid(props: widthProp) {
                 open={open}
                 onClose={handleClose}
                 aria-labelledby="responsive-dialog-title"
-                style={{ marginTop: "2rem",overflowY:"hidden"}}
+                style={{ marginTop: "2rem", overflowY: "hidden" }}
             >
-                <DialogTitle id="responsive-dialog-title">{"Start Quiz : "+selectedArtist.title}</DialogTitle>
-                <DialogContent style={{overflowY:"hidden"}}>
+                <DialogTitle id="responsive-dialog-title">{"Start Quiz : " + selectedArtist.title}</DialogTitle>
+                <DialogContent style={{ overflowY: "hidden" }}>
                     <DialogContentText>
                         Answer questions about audio snippets from {selectedArtist.title}'s top tracks.
                     </DialogContentText>
-                    <Card style={{height:"25rem"}}>
-                        <CardMedia image={selectedArtist.img} style={{height:"100%",maxWidth:"100%"}}>
+                    <Card style={{ height: "25rem" }}>
+                        <CardMedia image={selectedArtist.img} style={{ height: "100%", maxWidth: "100%" }}>
                         </CardMedia>
                     </Card>
                 </DialogContent>
-                <DialogActions disableSpacing={true} style={{justifyContent:"center",alignItems:"center"}}>
-                    <Button variant="contained" size="large" color="primary" onClick={startQuiz} style={{ color: "white", margin:"1rem", borderRadius: "16%/50%" }}>
+                <DialogActions disableSpacing={true} style={{ justifyContent: "center", alignItems: "center" }}>
+                    <Button variant="contained" size="large" color="primary" onClick={startQuiz} style={{ color: "white", margin: "1rem", borderRadius: "16%/50%" }}>
                         Start Quiz
                     </Button>
                 </DialogActions>
@@ -118,7 +117,6 @@ function ImageGrid(props: widthProp) {
             {modal}
             <GridList cellHeight={160} className={classes.gridList} cols={getGridListCols()}>
                 {tileData.map((tile) => (
-                    // <GridListTile key={tile.img} cols={tile.cols || 1} rows={tile.rows}>
                     <GridListTile key={tile.img} cols={1} onClick={() => {
                         setSelectedArtist(tile);
                         handleClickOpen();
