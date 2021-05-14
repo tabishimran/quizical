@@ -14,7 +14,6 @@ function Question(props: questionProps) {
     
     var question = props.question;
     const nextQuestion = props.nextQuestion
-    console.log(question);
     const [answered,setAnswered] = useState(false);
     
     const getColor = function(){
