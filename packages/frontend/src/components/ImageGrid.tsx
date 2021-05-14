@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext, useReducer } from 'react';
+import React, { useEffect, useState} from 'react';
 import '../css/App.css';
 import fetch from 'node-fetch';
 import GridList from '@material-ui/core/GridList';
