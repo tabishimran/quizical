@@ -8,6 +8,7 @@ import { useParams } from 'react-router';
 import fetch from 'node-fetch';
 import QuizNav from '../components/QuizNav';
 import Player from '../components/Player';
+import { useHistory } from 'react-router-dom';
 
 type quizParams = {
     artistUri: string
@@ -20,19 +21,19 @@ const initalQuizData={
     options:[""]
 }
 
-
 function Quiz() {
     const theme = useTheme();
+    const history = useHistory();
     const params = useParams<quizParams>();
     const artistUri: string = params.artistUri.split(":")[2];
     const [loading, setLoading] = useState(true);
     const [quiz, setUpQuiz] = useState<question[]>([]);
     const [questionNumber, setQuestionNumber] = useState(0);
     const [curentQuestion, setCurrentQuestion] = useState<question>(initalQuizData);
+    const [totalQuestions, setTotalQuestions] = useState(0);
+    const [correctAnswers,setCorrectAnswer] = useState(0);
     
     function nextQuestion() {
-        console.log(curentQuestion);
-        console.log('executing nextQuestion')
         if (questionNumber != quiz.length - 1) {
             setQuestionNumber(questionNumber + 1);
             setCurrentQuestion(quiz[questionNumber]);
@@ -42,15 +43,23 @@ function Quiz() {
         }
     }
 
+    function incrementCorrectAnswers(){
+        setCorrectAnswer(correctAnswers+1);
+    }
+
     function quizComplete() {
-        // submit results
+        const urlParams = new URLSearchParams();
+        urlParams.append('correctAnswers',correctAnswers.toString());
+        urlParams.append('totalQuestions',totalQuestions.toString());
+        history.push('/complete?'+urlParams.toString())
     }
 
     useEffect(() => {
         async function getQuiz(artistUri: string) {
             const response = await fetch("https://quizical.tabishimran.com/api/quiz?artist=" + artistUri);
-            console.log(response.status)
+            if(response.status==401) history.push('/login');
             const data = await response.json()
+            setTotalQuestions(data.length);
             setCurrentQuestion(data[0]);
             setQuestionNumber(0);
             setUpQuiz(data);
@@ -65,7 +74,7 @@ function Quiz() {
             <div className="quizNavigation">
                 <QuizNav questionNumber={questionNumber}></QuizNav>
             </div>
-            <Question question={curentQuestion} nextQuestion={nextQuestion}></Question>
+            <Question question={curentQuestion} nextQuestion={nextQuestion} incrementCorrectAnswers={incrementCorrectAnswers}></Question>
             <div className="player" style={{
                 position: "absolute",
                 bottom: "0",

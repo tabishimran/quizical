@@ -6,6 +6,7 @@ import Search from './Search'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import Quiz from './Quiz';
+import QuizComplete from './QuizComplete'
 
 const theme = createMuiTheme({
   palette: {
@@ -28,6 +29,7 @@ function App() {
             <Route path='/menu' component={Menu}></Route>
             <Route path='/search' component={Search}></Route>
             <Route path={'/quiz/:artistUri'} component={Quiz}></Route>
+            <Route path='/complete' component={QuizComplete}></Route>
             <Route path='/error/:type' component={Search}></Route>
           </Switch>
         </Router>
