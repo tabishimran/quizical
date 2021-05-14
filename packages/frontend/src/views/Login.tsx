@@ -16,7 +16,7 @@ function Login() {
         <Grid item xs={12} style={{margin:"2rem",marginBottom:"4rem"}}>
           <Typography variant="h1">Quizical</Typography>
         </Grid>
-        <Grid item>
+        <Grid item xs={12}>
           <Button variant="contained" size="large" color="primary" onClick={auth} style={{color:"white", marginTop:"4rem",borderRadius:"10%/50%"}}>
             Login with Spotify
           </Button>
