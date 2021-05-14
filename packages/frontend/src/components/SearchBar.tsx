@@ -80,16 +80,17 @@ function SearchBar(props:searchProps) {
     search();
   }, [searchBarText])
 
+
   return (
     <div className="searchBar">
-      <form className={classes.root} noValidate>
+      <form className={classes.root} noValidate onSubmit={(e)=>e.preventDefault()}>
         <FormControl className={classes.margin}>
           <Grid container justify="center" alignItems="center">
             <Grid item xs={12}>
               <Typography variant="h5" style={{ color: "white", marginTop: '1rem' }} > Pick an artist</Typography>
             </Grid>
             <Grid item xs={12}>
-              <BootstrapInput id="bootstrap-input" onSubmit={(e)=>e.preventDefault()} onChange={(e) => {
+              <BootstrapInput id="bootstrap-input" onChange={(e) => {
                 setSearchBarText(e.target.value);
               }}>
 
