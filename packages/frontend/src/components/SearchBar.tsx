@@ -5,6 +5,10 @@ import '../css/App.css';
 import { useHistory } from 'react-router-dom';
 
 
+interface searchProps {
+  addToGrid: (searchResults: tile[])=> void
+}
+
 const BootstrapInput = withStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -49,11 +53,12 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 
-function SearchBar() {
+function SearchBar(props:searchProps) {
   const history = useHistory();
   const classes = useStyles();
   const [tileData, setTileData] = useState([]);
   const [searchBarText, setSearchBarText] = useState<string>('');
+  var addToGrid = props.addToGrid;
 
   useEffect(() => {
     async function search() {
@@ -68,7 +73,7 @@ function SearchBar() {
         }
         else {
           const data = await response.json();
-          setTileData(data);
+          addToGrid(data);
         }
       }
     }
@@ -85,7 +90,6 @@ function SearchBar() {
             </Grid>
             <Grid item xs={12}>
               <BootstrapInput id="bootstrap-input" onChange={(e) => {
-                console.log(e.target.value);
                 setSearchBarText(e.target.value);
               }}>
 
