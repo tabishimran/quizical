@@ -4,13 +4,13 @@ import fetch from 'node-fetch';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import { Button, Card, CardMedia, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, makeStyles, useTheme } from '@material-ui/core';
-import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
-import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 import { useHistory } from 'react-router-dom';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 
-interface widthProp {
-    width: Breakpoint
+interface gridProps {
+    grid: tile[],
+    setGrid:  React.Dispatch<React.SetStateAction<tile[]>>
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -27,9 +27,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-function ImageGrid(props: widthProp) {
+function ImageGrid(props:gridProps) {
     const history = useHistory();
-    const [tileData, setTileData] = useState([]);
+    var tileData = props.grid;
+    var setTileData = props.setGrid;
     const [open, setOpen] = useState(false);
     const [selectedArtist, setSelectedArtist] = useState<tile>({
         img: "none",
@@ -40,6 +41,15 @@ function ImageGrid(props: widthProp) {
         uri: "none"
     });
     const theme = useTheme();
+
+    const screenXL = useMediaQuery(theme.breakpoints.up('xl'));
+    const screenLG = useMediaQuery(theme.breakpoints.up('lg'));
+    const screenMD = useMediaQuery(theme.breakpoints.up('md'));
+    var columns = 3;
+    if(screenMD) columns = 4; 
+    if(screenLG) columns = 6;
+    if(screenXL) columns = 8;
+
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -70,19 +80,6 @@ function ImageGrid(props: widthProp) {
     }, [])
 
     const classes = useStyles();
-
-    const getGridListCols = () => {
-        if (isWidthUp('xl', props.width)) {
-            return 8;
-        }
-        if (isWidthUp('lg', props.width)) {
-            return 6;
-        }
-        if (isWidthUp('md', props.width)) {
-            return 4;
-        }
-        return 3;
-    }
 
     const modal = (
         <div>
@@ -115,7 +112,7 @@ function ImageGrid(props: widthProp) {
     return (
         <div className={classes.root}>
             {modal}
-            <GridList cellHeight={160} className={classes.gridList} cols={getGridListCols()}>
+            <GridList cellHeight={160} className={classes.gridList} cols={columns}>
                 {tileData.map((tile) => (
                     <GridListTile key={tile.img} cols={1} onClick={() => {
                         setSelectedArtist(tile);
@@ -129,4 +126,4 @@ function ImageGrid(props: widthProp) {
     );
 }
 
-export default withWidth()(ImageGrid);
+export default ImageGrid;
