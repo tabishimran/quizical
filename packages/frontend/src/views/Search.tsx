@@ -11,7 +11,10 @@ function Search() {
 
   function addToGrid(searchResults:tile[]){
     const currentList = grid;
-    var data = searchResults.concat(grid);
+    var searchResultSet = new Set(searchResults);
+    var currentSet = new Set(grid);
+    var combinedSet = new Set([...searchResultSet,...currentSet])
+    var data = Array.from(combinedSet);
     setGridData(data);
   }
 
