@@ -1,4 +1,5 @@
 const authenticatedRequest = require('../utils/authenticatedRequest');
+const _ = require('lodash');
 
 
 module.exports = async function search(request, reply) {
@@ -15,7 +16,8 @@ module.exports = async function search(request, reply) {
 }
 
 async function generateSearchResults(topArtists) {
-    var artists = topArtists.artists.items;
+    var artists = _.get(topArtists,'artists.items')//topArtists.artists.items;
+    if(artists==undefined) artists=[]
     var searchResults = artists.map(function (artist) {
         if (artist.images.length) {
             var image = artist.images[0];
