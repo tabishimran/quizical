@@ -62,7 +62,7 @@ function SearchBar(props:searchProps) {
 
   useEffect(() => {
     async function search() {
-      if (searchBarText.length % 2 == 0) {
+      if (searchBarText.length !=0 && searchBarText.length % 2 == 0) {
         const searchURL = new URL("https://quizical.tabishimran.com/api/search")
         const params = new URLSearchParams();
         params.append('key', searchBarText);
