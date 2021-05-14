@@ -89,7 +89,7 @@ function SearchBar(props:searchProps) {
               <Typography variant="h5" style={{ color: "white", marginTop: '1rem' }} > Pick an artist</Typography>
             </Grid>
             <Grid item xs={12}>
-              <BootstrapInput id="bootstrap-input" onChange={(e) => {
+              <BootstrapInput id="bootstrap-input" onSubmit={(e)=>e.preventDefault()} onChange={(e) => {
                 setSearchBarText(e.target.value);
               }}>
 
