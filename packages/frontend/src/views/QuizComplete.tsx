@@ -1,17 +1,19 @@
-import { Card, CardActionArea, CardContent, CardMedia, Grid, Typography } from '@material-ui/core';
+import { Button, Card, CardActionArea, CardContent, CardMedia, Grid, Typography } from '@material-ui/core';
 import React from 'react'
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import NavBar from '../components/NavBar'
+import queryString from 'query-string'
 
-interface resultsParams{
-    correctAnswers:string,
-    totalQuestions:string
+
+interface resultsParams {
+    correctAnswers: string,
+    totalQuestions: string
 }
 
 function QuizComplete() {
     const history = useHistory();
-    const params = useParams<resultsParams>();
-
+    const paramString = useLocation<resultsParams>();
+    const params = queryString.parse(paramString.search);
 
     return (
         <div>
@@ -33,15 +35,30 @@ function QuizComplete() {
                                 style={{
                                     height: "100%",
                                     width: "100%",
-                                    backgroundColor:"#2f2929"
+                                    backgroundColor: "#2f2929",
+                                    padding:"4rem"
                                 }}>
                                 <CardMedia>
                                 </CardMedia>
                                 <CardContent>
-                                    <Typography variant="h6" style={{color:"white"}}>Score :{params.correctAnswers}/{params.totalQuestions}</Typography>
+                                    <Typography variant="h6" style={{ color: "white" }}>Score : {params.correctAnswers}/{params.totalQuestions}</Typography>
                                 </CardContent>
                                 <CardActionArea>
-
+                                    <Button
+                                        variant="contained"
+                                        size="large"
+                                        color="primary"
+                                        onClick={() => {
+                                            history.push('/search');
+                                        }}
+                                        style={{
+                                            color: "white",
+                                            margin: "1rem",
+                                            borderRadius: "25%/50%"
+                                        }}
+                                    >
+                                        Done
+                                    </Button>
                                 </CardActionArea>
                             </Card>
                         </Grid>
