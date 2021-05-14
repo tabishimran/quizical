@@ -8,6 +8,13 @@ import { useState } from "react";
 function Search() {
 
   const [grid,setGridData] = useState<tile[]>([]);
+
+  function addToGrid(searchResults:tile[]){
+    const currentList = grid;
+    var data = searchResults.concat(grid);
+    setGridData(data);
+  }
+
   return (
     <div>
       <NavBar></NavBar>
@@ -22,10 +29,10 @@ function Search() {
           wrap="wrap"
         >
           <Grid item>
-            <SearchBar></SearchBar>
+            <SearchBar addToGrid={addToGrid}></SearchBar>
           </Grid>
             <Grid item style={{overflowY:"auto",height:"100vh"}}>
-              <ImageGrid ></ImageGrid>
+              <ImageGrid grid={grid}></ImageGrid>
             </Grid>
         </Grid>
       </div>
