@@ -7,13 +7,15 @@ import { Card, CardActionArea, CardContent, Grid, Typography } from '@material-u
 
 interface questionProps {
     question: question,
-    nextQuestion: ()=>void
+    nextQuestion: ()=>void,
+    incrementCorrectAnswers:()=>void
 }
 
 function Question(props: questionProps) {
     
     var question = props.question;
-    const nextQuestion = props.nextQuestion
+    const nextQuestion = props.nextQuestion;
+    const incrementCorrectAnswers = props.incrementCorrectAnswers;
     const [answered,setAnswered] = useState(false);
     
     const getColor = function(){
@@ -23,7 +25,7 @@ function Question(props: questionProps) {
     const checkAnswer = function(each:string){
         setAnswered(true)
         if(each==question.answer){
-            console.log('true')
+            incrementCorrectAnswers();
         }
         setTimeout(()=>{
             setAnswered(false);
