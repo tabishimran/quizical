@@ -19,4 +19,3 @@ type question={
     audio:string,
     options:string[]
 }
-
