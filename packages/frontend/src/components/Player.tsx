@@ -41,54 +41,9 @@ function Player(props: playerProps) {
     const theme = useTheme();
     const audioURL = props.audio;
     const classes = useStyles();
-    const [sdkLoaded, setSDKLoaded] = useState(false);
-    const [playerReady, setPlayerReady] = useState(false);
     const [deviceID, setDeviceId] = useState(null);
     const [songPlaying, setSongPlaying] = useState(false);
 
-
-
-    useEffect(() => {
-        const scriptTag = document.createElement('script');
-        scriptTag.src = 'https://sdk.scdn.co/spotify-player.js';
-        scriptTag.addEventListener('load', () => setSDKLoaded(true));
-        document.body.appendChild(scriptTag);
-    }, [])
-
-    useEffect(() => {
-        window.onSpotifyWebPlaybackSDKReady = function () {
-            const token = '';
-            const player = new window.Spotify.Player({
-                name: 'Quizical',
-                getOAuthToken: (cb: (arg0: string) => void) => { cb(token); }
-            });
-            // Error handling
-            player.addListener('initialization_error', ({ message }: { message: any }) => { console.error(message); });
-            player.addListener('authentication_error', ({ message }: { message: any }) => { console.error(message); });
-            player.addListener('account_error', ({ message }: { message: any }) => { console.error(message); });
-            player.addListener('playback_error', ({ message }: { message: any }) => { console.error(message); });
-
-            // Playback status updates
-            player.addListener('player_state_changed', (state: any) => { console.log(state); });
-
-            player.addListener('ready', ({ device_id }: { device_id: any }) => {
-                setDeviceId(device_id);
-                setPlayerReady(true);
-            });
-
-            // Not Ready
-            player.addListener('not_ready', ({ device_id }: { device_id: any }) => {
-                console.log('Device ID has gone offline', device_id);
-                setDeviceId(null);
-                setPlayerReady(false);
-            });
-
-            // Connect to the player!
-            console.log("SDK Loaded   : " + sdkLoaded);
-            console.log("Player Ready : " + playerReady);
-            player.connect();
-        };
-    }, [])
 
     function playSong() {
         setSongPlaying(true);
