@@ -32,7 +32,7 @@ function Search() {
             <SearchBar addToGrid={addToGrid}></SearchBar>
           </Grid>
             <Grid item style={{overflowY:"auto",height:"100vh"}}>
-              <ImageGrid grid={grid}></ImageGrid>
+              <ImageGrid grid={grid} setGrid={setGridData}></ImageGrid>
             </Grid>
         </Grid>
       </div>
