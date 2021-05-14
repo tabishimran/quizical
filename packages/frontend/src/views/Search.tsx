@@ -10,11 +10,9 @@ function Search() {
   const [grid,setGridData] = useState<tile[]>([]);
 
   function addToGrid(searchResults:tile[]){
-    const currentList = grid;
-    var searchResultSet = new Set(searchResults);
-    var currentSet = new Set(grid);
-    var combinedSet = new Set([...searchResultSet,...currentSet])
-    var data = Array.from(combinedSet);
+    var currentList = grid;
+    currentList = currentList.filter(function(each){return !searchResults.some(elem=>elem.uri==each.uri)})
+    var data = searchResults.concat(currentList);
     setGridData(data);
   }
 
