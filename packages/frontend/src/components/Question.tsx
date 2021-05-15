@@ -74,13 +74,11 @@ function Question(props: questionProps) {
                                 width: "13rem",
                                 textAlign:"center"
                             }}>
-                            <CardActionArea>
                                 <CardContent>
                                     <Typography variant="body1" style={{ "color": "white" }}>
                                         {each}
                                     </Typography>
                                 </CardContent>
-                            </CardActionArea>
                         </Card>
                     </Grid>
                 ))};

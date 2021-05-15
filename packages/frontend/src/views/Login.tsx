@@ -18,7 +18,7 @@ function Login() {
         </Grid>
         <Grid item xs={12}>
           <Button variant="contained" size="large" color="primary" onClick={auth} style={{color:"white", marginTop:"4rem",borderRadius:"10%/50%"}}>
-            Login with Spotify
+            Connect with Spotify
           </Button>
         </Grid>
       </Grid>
