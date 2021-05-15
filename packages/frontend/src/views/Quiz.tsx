@@ -70,11 +70,6 @@ function Quiz() {
         getQuiz(artistUri);
     }, []);
 
-    useEffect(() => {
-        console.log('loaded')
-        setLoading(false);
-    }, [quiz])
-
     const quizView =
         <div style={{ backgroundColor: "#191414" }}>
             <NavBar></NavBar>
