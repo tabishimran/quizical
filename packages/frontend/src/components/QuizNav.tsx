@@ -13,7 +13,7 @@ interface quizNavProps {
 
 const useStyles = makeStyles({
     root: {
-        paddingTop: "7rem",
+        paddingTop: "2rem",
         flexGrow: 1,
         backgroundColor: "#191414",
         dot:{
