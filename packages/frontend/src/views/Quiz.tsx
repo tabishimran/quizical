@@ -10,6 +10,7 @@ import QuizNav from '../components/QuizNav';
 import Player from '../components/Player';
 import { useHistory } from 'react-router-dom';
 
+
 type quizParams = {
     artistUri: string
 }
@@ -29,9 +30,10 @@ function Quiz() {
     const [loading, setLoading] = useState(true);
     const [quiz, setUpQuiz] = useState<question[]>([]);
     const [questionNumber, setQuestionNumber] = useState(0);
-    const [curentQuestion, setCurrentQuestion] = useState<question>(initalQuizData);
+    const [currentQuestion, setCurrentQuestion] = useState<question>(initalQuizData);
     const [totalQuestions, setTotalQuestions] = useState(0);
     const [correctAnswers,setCorrectAnswer] = useState(0);
+    const [songPlaying, setSongPlaying] = useState(false);
     
     function nextQuestion() {
         if (questionNumber != quiz.length - 1) {
@@ -60,9 +62,9 @@ function Quiz() {
             if(response.status==401) history.push('/login');
             const data = await response.json()
             setTotalQuestions(data.length);
-            setCurrentQuestion(data[0]);
-            setQuestionNumber(0);
             setUpQuiz(data);
+            setCurrentQuestion(quiz[0]);
+            setQuestionNumber(0);
             setLoading(false);
         }
         getQuiz(artistUri);
@@ -74,7 +76,7 @@ function Quiz() {
             <div className="quizNavigation">
                 <QuizNav questionNumber={questionNumber}></QuizNav>
             </div>
-            <Question question={curentQuestion} nextQuestion={nextQuestion} incrementCorrectAnswers={incrementCorrectAnswers}></Question>
+            <Question setSongPlaying={()=>{setSongPlaying(false)}}question={currentQuestion} nextQuestion={nextQuestion} incrementCorrectAnswers={incrementCorrectAnswers}></Question>
             <div className="player" style={{
                 position: "absolute",
                 bottom: "0",
@@ -83,7 +85,7 @@ function Quiz() {
                 right: 0,
                 marginBottom: "2rem"
             }}>
-                <Player audio={curentQuestion.audio}></Player>
+                <Player songPlaying={songPlaying} setSongPlaying={setSongPlaying} audio={currentQuestion.audio}></Player>
             </div>
         </div>
 
