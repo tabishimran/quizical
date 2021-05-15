@@ -20,10 +20,7 @@ function Question(props: questionProps) {
     const nextQuestion = props.nextQuestion;
     const incrementCorrectAnswers = props.incrementCorrectAnswers;
     const [answered,setAnswered] = useState(false);
-    
-    const getColor = function(){
 
-    }
 
     const checkAnswer = function(each:string){
         setAnswered(true)
