@@ -18,6 +18,8 @@ declare const window: any;
 
 interface playerProps {
     audio: string
+    songPlaying: boolean,
+    setSongPlaying: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const useStyles = makeStyles((theme) =>
@@ -42,17 +44,25 @@ function Player(props: playerProps) {
     const audioURL = props.audio;
     const classes = useStyles();
     const [deviceID, setDeviceId] = useState(null);
-    const [songPlaying, setSongPlaying] = useState(false);
+    const songPlaying = props.songPlaying;
+    const setSongPlaying = props.setSongPlaying;
 
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            pauseSong()
+        }, 10000)
+        return () => {
+            clearTimeout(timer);
+        }
+    }, [songPlaying])
 
     function playSong() {
         setSongPlaying(true);
-        setTimeout(()=>{
-            pauseSong()
-        },10000)
     }
 
     function pauseSong() {
+        console.log('pause')
         setSongPlaying(false);
     }
 
@@ -74,8 +84,8 @@ function Player(props: playerProps) {
                     <Grid item>
                         <Sound
                             url={audioURL}
-                            playStatus={songPlaying? Sound.status.PLAYING : Sound.status.PAUSED}
-                            playFromPosition={0 /* in milliseconds */}
+                            playStatus={songPlaying ? Sound.status.PLAYING : Sound.status.PAUSED}
+                            playFromPosition={0}
                             onFinishedPlaying={pauseSong}
                         />
                         {songPlaying ?
