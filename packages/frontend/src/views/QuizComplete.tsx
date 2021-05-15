@@ -48,7 +48,7 @@ function QuizComplete() {
                                         size="large"
                                         color="primary"
                                         onClick={() => {
-                                            history.push('/search');
+                                            history.push('/');
                                         }}
                                         style={{
                                             color: "white",
