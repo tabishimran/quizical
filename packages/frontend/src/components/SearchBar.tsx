@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom';
 
 
 interface searchProps {
-  addToGrid: (searchResults: tile[])=> void
+  addToGrid: (searchResults: tile[]) => void
 }
 
 const BootstrapInput = withStyles((theme: Theme) =>
@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 
-function SearchBar(props:searchProps) {
+function SearchBar(props: searchProps) {
   const history = useHistory();
   const classes = useStyles();
   const [searchBarText, setSearchBarText] = useState<string>('');
@@ -61,7 +61,7 @@ function SearchBar(props:searchProps) {
 
   useEffect(() => {
     async function search() {
-      if (searchBarText.length !=0 && searchBarText.length % 2 == 0) {
+      if (searchBarText.length != 0 && searchBarText.length % 2 == 0) {
         const searchURL = new URL("https://quizical.tabishimran.com/api/search")
         const params = new URLSearchParams();
         params.append('key', searchBarText);
@@ -82,16 +82,19 @@ function SearchBar(props:searchProps) {
 
   return (
     <div className="searchBar">
-      <form className={classes.root} noValidate onSubmit={(e)=>e.preventDefault()}>
+      <form className={classes.root} noValidate onSubmit={(e) => e.preventDefault()}>
         <FormControl className={classes.margin}>
           <Grid container justify="center" alignItems="center">
             <Grid item xs={12}>
               <Typography variant="h5" style={{ color: "white", marginTop: '1rem' }} > Pick an artist</Typography>
             </Grid>
             <Grid item xs={12}>
-              <BootstrapInput id="bootstrap-input" placeholder="search ..." onChange={(e) => {
-                setSearchBarText(e.target.value);
-              }}>
+              <BootstrapInput
+                id="bootstrap-input"
+                placeholder="search ..."
+                onChange={(e) => {
+                  setSearchBarText(e.target.value);
+                }}>
 
               </BootstrapInput>
             </Grid>
