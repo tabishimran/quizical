@@ -28,9 +28,9 @@ function App() {
             <Route path='/login' component={Login}></Route>
             <Route path='/menu' component={Menu}></Route>
             <Route path={'/quiz/:artistUri'} component={Quiz}></Route>
-            <Route path='/' component={Search}></Route>
             <Route path='/complete' component={QuizComplete}></Route>
             <Route path='/error/:type' component={Search}></Route>
+            <Route path='/' component={Search}></Route>
           </Switch>
         </Router>
       </MuiThemeProvider>
