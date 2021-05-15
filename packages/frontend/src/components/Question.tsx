@@ -8,12 +8,15 @@ import { Card, CardActionArea, CardContent, Grid, Typography } from '@material-u
 interface questionProps {
     question: question,
     nextQuestion: ()=>void,
-    incrementCorrectAnswers:()=>void
+    incrementCorrectAnswers:()=>void,
+    setSongPlaying:()=>void
 }
 
 function Question(props: questionProps) {
     
     var question = props.question;
+    console.log(question);
+    const setPlaying = props.setSongPlaying;
     const nextQuestion = props.nextQuestion;
     const incrementCorrectAnswers = props.incrementCorrectAnswers;
     const [answered,setAnswered] = useState(false);
@@ -27,6 +30,7 @@ function Question(props: questionProps) {
         if(each==question.answer){
             incrementCorrectAnswers();
         }
+        setPlaying();
         setTimeout(()=>{
             setAnswered(false);
             nextQuestion();
