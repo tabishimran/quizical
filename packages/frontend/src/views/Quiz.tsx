@@ -58,7 +58,7 @@ function Quiz() {
     useEffect(() => {
         async function getQuiz(artistUri: string) {
             const response = await fetch("https://quizical.tabishimran.com/api/quiz?artist=" + artistUri);
-            if (response.status == 401) history.push('/login');
+            if(response.status==401) history.push('/login');
             const data = await response.json()
             setTotalQuestions(data.length);
             setUpQuiz(data);
@@ -70,15 +70,15 @@ function Quiz() {
     }, []);
 
     const quizView =
-        <div style={{ backgroundColor: "#191414", height: "100vh" }}>
+        <div style={{ backgroundColor: "#191414", height:"100vh"}}>
             <NavBar></NavBar>
             <Grid
                 container
                 direction="row"
                 justify="center"
-                alignContent="center"
+                alignContent="stretch"
                 alignItems="center"
-                style={{ height: "100%", backgroundColor: "#191414" }}
+                style={{height:"100%",backgroundColor:"#191414"}}
             >
                 <Grid item xs={12}>
                     <div className="quizNavigation">

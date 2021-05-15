@@ -6,7 +6,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 
 function NavBar(){
     return(
-        <AppBar position="relative" style={{backgroundColor:"#191414"}}>
+        <AppBar position="absolute" style={{backgroundColor:"#191414"}}>
         <Toolbar>
         <IconButton edge="start" color="inherit" aria-label="menu">
             <MenuIcon style={{color:"white"}}/>
