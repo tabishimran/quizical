@@ -73,7 +73,7 @@ function Quiz() {
     useEffect(() => {
         console.log('loaded')
         setLoading(false);
-    }, [quiz1])
+    }, [quiz])
 
     const quizView =
         <div style={{ backgroundColor: "#191414" }}>
