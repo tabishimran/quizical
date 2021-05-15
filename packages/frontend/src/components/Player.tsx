@@ -1,4 +1,4 @@
-import { Card, CardActionArea, createStyles, Grid, IconButton, makeStyles, Theme, useTheme } from "@material-ui/core";
+import { Card, createStyles, Grid, IconButton, makeStyles, Theme, useTheme } from "@material-ui/core";
 import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
 import Forward10RoundedIcon from '@material-ui/icons/Forward10Rounded';
 import ReplayRoundedIcon from '@material-ui/icons/ReplayRounded';
