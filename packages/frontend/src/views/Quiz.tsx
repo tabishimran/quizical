@@ -37,8 +37,8 @@ function Quiz() {
     
     function nextQuestion() {
         if (questionNumber != quiz.length - 1) {
+            setCurrentQuestion(quiz[questionNumber+1]);
             setQuestionNumber(questionNumber + 1);
-            setCurrentQuestion(quiz[questionNumber]);
         }
         else {
             quizComplete();
@@ -63,12 +63,17 @@ function Quiz() {
             const data = await response.json()
             setTotalQuestions(data.length);
             setUpQuiz(data);
-            setCurrentQuestion(quiz[0]);
+            setCurrentQuestion(data[0]);
             setQuestionNumber(0);
             setLoading(false);
         }
         getQuiz(artistUri);
     }, []);
+
+    useEffect(() => {
+        console.log('loaded')
+        setLoading(false);
+    }, [quiz1])
 
     const quizView =
         <div style={{ backgroundColor: "#191414" }}>
@@ -76,7 +81,7 @@ function Quiz() {
             <div className="quizNavigation">
                 <QuizNav questionNumber={questionNumber}></QuizNav>
             </div>
-            <Question setSongPlaying={()=>{setSongPlaying(false)}}question={currentQuestion} nextQuestion={nextQuestion} incrementCorrectAnswers={incrementCorrectAnswers}></Question>
+            <Question setSongPlaying={()=>{setSongPlaying(false)}} question={currentQuestion} nextQuestion={nextQuestion} incrementCorrectAnswers={incrementCorrectAnswers}></Question>
             <div className="player" style={{
                 position: "absolute",
                 bottom: "0",
