@@ -56,7 +56,6 @@ const useStyles = makeStyles((theme: Theme) =>
 function SearchBar(props:searchProps) {
   const history = useHistory();
   const classes = useStyles();
-  const [tileData, setTileData] = useState([]);
   const [searchBarText, setSearchBarText] = useState<string>('');
   var addToGrid = props.addToGrid;
 
@@ -90,7 +89,7 @@ function SearchBar(props:searchProps) {
               <Typography variant="h5" style={{ color: "white", marginTop: '1rem' }} > Pick an artist</Typography>
             </Grid>
             <Grid item xs={12}>
-              <BootstrapInput id="bootstrap-input" onChange={(e) => {
+              <BootstrapInput id="bootstrap-input" placeholder="search ..." onChange={(e) => {
                 setSearchBarText(e.target.value);
               }}>
 
