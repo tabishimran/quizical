@@ -43,7 +43,6 @@ function Player(props: playerProps) {
     const theme = useTheme();
     const audioURL = props.audio;
     const classes = useStyles();
-    const [deviceID, setDeviceId] = useState(null);
     const songPlaying = props.songPlaying;
     const setSongPlaying = props.setSongPlaying;
 
@@ -62,7 +61,6 @@ function Player(props: playerProps) {
     }
 
     function pauseSong() {
-        console.log('pause')
         setSongPlaying(false);
     }
 

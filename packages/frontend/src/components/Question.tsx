@@ -15,7 +15,6 @@ interface questionProps {
 function Question(props: questionProps) {
     
     var question = props.question;
-    console.log(question);
     const setPlaying = props.setSongPlaying;
     const nextQuestion = props.nextQuestion;
     const incrementCorrectAnswers = props.incrementCorrectAnswers;
