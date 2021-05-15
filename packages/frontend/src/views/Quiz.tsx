@@ -78,7 +78,7 @@ function Quiz() {
             </div>
             <Question setSongPlaying={()=>{setSongPlaying(false)}} question={currentQuestion} nextQuestion={nextQuestion} incrementCorrectAnswers={incrementCorrectAnswers}></Question>
             <div className="player" style={{
-                position: "absolute",
+                position: "relative",
                 bottom: "0",
                 width: "100%",
                 left: 0,
