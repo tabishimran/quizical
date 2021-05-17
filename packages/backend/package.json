@@ -14,6 +14,7 @@
     "@types/mongoose": "^5.10.5",
     "@types/node-fetch": "^2.5.10",
     "lodash": "^4.17.21",
+    "md5": "^2.3.0",
     "mongoose": "^5.12.7",
     "node-fetch": "^2.6.1",
     "nodemon": "^2.0.7"
