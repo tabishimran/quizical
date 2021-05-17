@@ -7,4 +7,4 @@ var quizSchema = new Schema({
     id:String
 });
 
-module.exports = mongoose.model('Quiz',userSchema);
+module.exports = mongoose.model('Quiz',quizSchema);

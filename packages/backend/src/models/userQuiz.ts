@@ -1,9 +1,9 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var userQuiz = new Schema({
-    user: String,
+var userQuizSchema = new Schema({
+    userId: String,
     quizzes:Array
 });
 
-module.exports = mongoose.model('UserQuiz', userSchema);
+module.exports = mongoose.model('userQuiz', userQuizSchema);
