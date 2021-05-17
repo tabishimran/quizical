@@ -2,7 +2,9 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var quizSchema = new Schema({
-    name:String,
+    artistId:String,
+    questions:Array,
+    id:String
 });
 
 module.exports = mongoose.model('Quiz',userSchema);

@@ -2,7 +2,8 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var userQuiz = new Schema({
-    user: {type: mongoose.Schema.Types.ObjectId, ref: 'Users'}
+    user: String,
+    quizzes:Array
 });
 
-module.exports = mongoose.model('userQuiz', userSchema);
+module.exports = mongoose.model('UserQuiz', userSchema);
