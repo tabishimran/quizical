@@ -5,15 +5,15 @@ const pickRandomSongs = require('../utils/pickRandom');
 const UserQuiz = require('../models/userQuiz');
 const Quiz = require('../models/quiz');
 const md5 = require("md5");
+import {parseAlbum,parseTrack} from '../utils/parser';
+
 
 
 module.exports = async function getQuiz(request, reply: ResponseToolkit) {
     const artistId = request.query.artist;
     const session = request.state;
     const cached = await findQuiz(artistId,session);
-    console.log("cached : "+cached);
     if(cached==undefined){
-        console.log('no cache');
         const artistAlbums = await getAlbums(artistId, session)
         const artistSongs = await getTracks(artistAlbums, session);
         const questions = await createQuestions(artistSongs);
@@ -27,10 +27,10 @@ module.exports = async function getQuiz(request, reply: ResponseToolkit) {
         await UserQuiz.findOneAndUpdate({ userId: session.sid.id }, { $push: {quizzes:quiz.id}});
         return reply.response(questions);
     }else{
-        console.log('cached repsonse');
         return reply.response(cached.questions);
     }
 }
+
 async function findQuiz(artistId, session) {
     var quiz,userQuizzes;
     const userURI = session.sid.id;
@@ -59,15 +59,7 @@ async function findQuiz(artistId, session) {
 
 async function getAlbums(artistId, session) {
     const data = await authenticatedRequest("https://api.spotify.com/v1/artists/" + artistId + "/albums?include_groups=album,single&market=from_token&limit=50", session, { method: 'GET' });
-    const albums = data.items.map(function (album) {
-        return {
-            name: album.name,
-            type: album.album_type,
-            release: album.release_date,
-            uri: album.uri,
-            tracks: album.total_tracks
-        }
-    });
+    const albums = parseAlbum(data);
     return albums;
 }
 
@@ -88,20 +80,7 @@ async function getTracks(albums, session) {
             tracks = tracks.concat(songSet);
         }
     }
-    const trackSet = tracks.map(function (track) {
-        return {
-            name: track.name,
-            uri: track.id,
-            durationMs: track.duration_ms,
-            preview: track.preview_url,
-            album: track.album,
-            release: track.release,
-            albumType: track.albumType,
-            artists: track.artists.map(function (artist) {
-                return { name: artist.name, type: artist.type, uri: artist.uri }
-            })
-        }
-    })
+    const trackSet = parseTrack(tracks);
     return trackSet;
 }
 
