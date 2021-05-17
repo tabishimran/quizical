@@ -2,15 +2,59 @@ const User = require('../models/user');
 import { ResponseToolkit } from 'hapi';
 const authenticatedRequest = require('../utils/authenticatedRequest');
 const pickRandomSongs = require('../utils/pickRandom');
+const UserQuiz = require('../models/userQuiz');
+const Quiz = require('../models/quiz');
+const md5 = require("md5");
 
 
 module.exports = async function getQuiz(request, reply: ResponseToolkit) {
     const artistId = request.query.artist;
     const session = request.state;
-    const artistAlbums = await getAlbums(artistId, session)
-    const artistSongs = await getTracks(artistAlbums, session);
-    const questions = await createQuestions(artistSongs);
-    return reply.response(questions);
+    const cached = await findQuiz(artistId,session);
+    console.log("cached : "+cached);
+    if(cached==undefined){
+        console.log('no cache');
+        const artistAlbums = await getAlbums(artistId, session)
+        const artistSongs = await getTracks(artistAlbums, session);
+        const questions = await createQuestions(artistSongs);
+        const quizObj = {
+            artistId:artistId,
+            questions:questions,
+            id:md5(JSON.stringify(questions))
+        }
+        const quiz = new Quiz(quizObj)
+        quiz.save();
+        await UserQuiz.findOneAndUpdate({ userId: session.sid.id }, { $push: {quizzes:quiz.id}});
+        return reply.response(questions);
+    }else{
+        console.log('cached repsonse');
+        return reply.response(cached.questions);
+    }
+}
+async function findQuiz(artistId, session) {
+    var quiz,userQuizzes;
+    const userURI = session.sid.id;
+    const storedQuizzes = await Quiz.find({ artistId: artistId });
+    var userQuizObject = await UserQuiz.findOne({ userId: userURI });
+    console.log("user quizzes : "+userQuizzes);
+    if (!userQuizObject) {
+        console.log("no user quizzes, creating");
+        const initialUserQuizData = { userId: userURI, quizzes: [] }
+        const newUserQuizObj = new UserQuiz(initialUserQuizData);
+        await newUserQuizObj.save();
+        userQuizzes = [];
+    }
+    else userQuizzes = userQuizObject.quizzes;
+    if (storedQuizzes) {
+        console.log("inside stored quizzes");
+        const newQuizzes = storedQuizzes.filter(function (each) { return !userQuizzes.some(elem => elem == each.id) })
+        console.log(newQuizzes.length);
+        if (newQuizzes.length > 0) {
+            quiz = newQuizzes.pop();
+            await UserQuiz.findOneAndUpdate({ userId: userURI }, { quizzes: [...userQuizzes, quiz.id] })
+        }
+    }
+    return quiz
 }
 
 async function getAlbums(artistId, session) {
