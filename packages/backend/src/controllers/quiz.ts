@@ -12,27 +12,27 @@ import { parseAlbum, parseTrack } from '../utils/parser';
 module.exports = async function getQuiz(request, reply: ResponseToolkit) {
     const artistId = request.query.artist;
     const session = request.state;
-    const cached = await findQuiz(artistId,session);
-    if(cached==undefined){
+    const cached = await findQuiz(artistId, session);
+    if (cached == undefined) {
         const artistAlbums = await getAlbums(artistId, session)
         const artistSongs = await getTracks(artistId);
         const questions = await createQuestions(artistSongs);
         const quizObj = {
-            artistId:artistId,
-            questions:questions,
-            id:md5(JSON.stringify(questions))
+            artistId: artistId,
+            questions: questions,
+            id: md5(JSON.stringify(questions))
         }
         const quiz = new Quiz(quizObj)
         quiz.save();
-        await UserQuiz.findOneAndUpdate({ userId: session.sid.id }, { $push: {quizzes:quiz.id}});
+        await UserQuiz.findOneAndUpdate({ userId: session.sid.id }, { $push: { quizzes: quiz.id } });
         return reply.response(questions);
-    }else{
+    } else {
         return reply.response(cached.questions);
     }
 }
 
 async function findQuiz(artistId, session) {
-    var quiz,userQuizzes;
+    var quiz, userQuizzes;
     const userURI = session.sid.id;
     const storedQuizzes = await Quiz.find({ artistId: artistId });
     var userQuizObject = await UserQuiz.findOne({ userId: userURI });
@@ -59,11 +59,11 @@ async function getAlbums(artistId, session) {
     const albums = parseAlbum(data);
     const newAlbums = albums.filter(function (each) { return !storedAlbums.some(elem => elem.id == each.id) })
     console.log("Found " + newAlbums.length + " new albums.")
-    for(let i =0;i<newAlbums.length;i++){
-        var tracks = await fetchAlbumTracks(newAlbums[i],session);
+    for (let i = 0; i < newAlbums.length; i++) {
+        var tracks = await fetchAlbumTracks(newAlbums[i], session);
         var album = new Album(albums[i]);
         album.save();
-        tracks.map(function(track){
+        tracks.map(function (track) {
             var track = new Track(track);
             track.save();
         })
@@ -75,11 +75,11 @@ async function fetchAlbumTracks(album, session) {
     const url = "https://api.spotify.com/v1/albums/" + album.id + "/tracks?market=from_token";
     var tracks = await authenticatedRequest(url, session, { method: 'GET' });
     var trackList = tracks.items.map(function (track) {
-            track.album = album.name,
+        track.album = album.name,
             track.release = album.release,
             track.albumId = album.id;
-            track.albumType = album.type;
-	    return track;
+        track.albumType = album.type;
+        return track;
     })
     trackList = parseTrack(trackList);
     return trackList;
@@ -87,7 +87,7 @@ async function fetchAlbumTracks(album, session) {
 
 
 async function getTracks(artistId) {
-    const trackList = await Track.find({"artists.id":artistId});
+    const trackList = await Track.find({ "artists.id": artistId });
     return trackList;
 }
 
