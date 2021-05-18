@@ -6,8 +6,8 @@ var albumSchema = new Schema({
     type:String,
     release:Date,
     id:String,
-    aritsts:Array,
-    totalTracks:Number
+    artists:Array,
+    tracks:Number
 });
 
-module.exports = mongoose.model('Album',userSchema);
+module.exports = mongoose.model('Album',albumSchema);
