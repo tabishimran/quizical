@@ -1,14 +1,14 @@
-function parseArtist(artistResponse){
-    
-}
 
 function parseAlbum(albumResponse){
     const albums = albumResponse.items.map(function (album) {
         return {
+            id: album.id,
             name: album.name,
             type: album.album_type,
             release: album.release_date,
-            uri: album.uri,
+            artists: album.artists.map(function(artist){
+                return {name: artist.name, id:artist.id}
+            }),
             tracks: album.total_tracks
         }
     });
@@ -34,4 +34,4 @@ function parseTrack(trackResponse){
 }
 
 
-export {parseAlbum,parseArtist,parseTrack}
+export {parseAlbum,parseTrack}
