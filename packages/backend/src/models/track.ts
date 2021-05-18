@@ -6,7 +6,11 @@ var trackSchema = new Schema({
     duration: Number,
     id: String,
     artists:Array,
-    preview: String
+    preview: String,
+    album:String,
+    albumId:String,
+    albumType:String,
+    release:String
 });
 
-module.exports = mongoose.model('Track', userSchema);
+module.exports = mongoose.model('Track', trackSchema);
