@@ -1,20 +1,15 @@
-import { Card, createStyles, Grid, IconButton, makeStyles, Theme, useTheme } from "@material-ui/core";
+import { Card, createStyles, Grid, IconButton, makeStyles } from "@material-ui/core";
 import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
 import Forward10RoundedIcon from '@material-ui/icons/Forward10Rounded';
 import ReplayRoundedIcon from '@material-ui/icons/ReplayRounded';
 import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded';
 import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded';
 import StarRoundedIcon from '@material-ui/icons/StarRounded';
-import StarBorderRoundedIcon from '@material-ui/icons/StarBorderRounded';
 import PauseCircleFilledIcon from '@material-ui/icons/PauseCircleFilled';
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import "../css/App.css";
 
 var Sound = require('react-sound').default;
-
-
-
-declare const window: any;
 
 interface playerProps {
     audio: string
@@ -40,7 +35,6 @@ const useStyles = makeStyles((theme) =>
 );
 
 function Player(props: playerProps) {
-    const theme = useTheme();
     const audioURL = props.audio;
     const classes = useStyles();
     const songPlaying = props.songPlaying;

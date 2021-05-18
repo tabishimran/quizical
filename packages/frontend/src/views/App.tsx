@@ -1,7 +1,6 @@
 import React from 'react';
 import '../css/App.css';
 import Login from './Login';
-import Menu from './Menu';
 import Search from './Search'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
@@ -10,7 +9,7 @@ import QuizComplete from './QuizComplete'
 
 const theme = createMuiTheme({
   palette: {
-    primary:{
+    primary: {
       main: '#1DB954'
     },
     secondary: {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import '../css/App.css';
 import fetch from 'node-fetch';
 import GridList from '@material-ui/core/GridList';
@@ -10,7 +10,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 interface gridProps {
     grid: tile[],
-    setGrid:  React.Dispatch<React.SetStateAction<tile[]>>
+    setGrid: React.Dispatch<React.SetStateAction<tile[]>>
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-function ImageGrid(props:gridProps) {
+function ImageGrid(props: gridProps) {
     const history = useHistory();
     var tileData = props.grid;
     var setTileData = props.setGrid;
@@ -46,9 +46,9 @@ function ImageGrid(props:gridProps) {
     const screenLG = useMediaQuery(theme.breakpoints.up('lg'));
     const screenMD = useMediaQuery(theme.breakpoints.up('md'));
     var columns = 3;
-    if(screenMD) columns = 4; 
-    if(screenLG) columns = 6;
-    if(screenXL) columns = 8;
+    if (screenMD) columns = 4;
+    if (screenLG) columns = 6;
+    if (screenXL) columns = 8;
 
 
     const handleClickOpen = () => {
@@ -69,7 +69,7 @@ function ImageGrid(props:gridProps) {
     useEffect(() => {
         async function getArtists() {
             const response = await fetch("https://quizical.tabishimran.com/api/grid");
-            if (response.status == 401) {
+            if (response.status === 401) {
                 history.push('/login');
             } else {
                 const data = await response.json();

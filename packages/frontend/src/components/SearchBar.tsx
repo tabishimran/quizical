@@ -61,13 +61,13 @@ function SearchBar(props: searchProps) {
 
   useEffect(() => {
     async function search() {
-      if (searchBarText.length != 0 && searchBarText.length % 2 == 0) {
+      if (searchBarText.length !== 0 && searchBarText.length % 2 === 0) {
         const searchURL = new URL("https://quizical.tabishimran.com/api/search")
         const params = new URLSearchParams();
         params.append('key', searchBarText);
         searchURL.search = params.toString();
         const response = await fetch(searchURL.toString());
-        if (response.status == 401) {
+        if (response.status === 401) {
           history.push('/login');
         }
         else {
@@ -95,7 +95,6 @@ function SearchBar(props: searchProps) {
                 onChange={(e) => {
                   setSearchBarText(e.target.value);
                 }}>
-
               </BootstrapInput>
             </Grid>
           </Grid>

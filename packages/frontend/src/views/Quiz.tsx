@@ -1,5 +1,5 @@
-import { Grid, Typography, useTheme } from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
+import { Grid } from '@material-ui/core';
+import { useEffect, useState } from 'react';
 import Question from '../components/Question';
 import '../css/App.css';
 import NavBar from '../components/NavBar';
@@ -22,7 +22,6 @@ const initalQuizData = {
 }
 
 function Quiz() {
-    const theme = useTheme();
     const history = useHistory();
     const params = useParams<quizParams>();
     const artistUri: string = params.artistUri.split(":")[2];
@@ -35,7 +34,7 @@ function Quiz() {
     const [songPlaying, setSongPlaying] = useState(false);
 
     function nextQuestion() {
-        if (questionNumber != quiz.length - 1) {
+        if (questionNumber !== quiz.length - 1) {
             setCurrentQuestion(quiz[questionNumber + 1]);
             setQuestionNumber(questionNumber + 1);
         }
@@ -58,7 +57,7 @@ function Quiz() {
     useEffect(() => {
         async function getQuiz(artistUri: string) {
             const response = await fetch("https://quizical.tabishimran.com/api/quiz?artist=" + artistUri);
-            if(response.status==401) history.push('/login');
+            if (response.status === 401) history.push('/login');
             const data = await response.json()
             setTotalQuestions(data.length);
             setUpQuiz(data);
@@ -70,7 +69,7 @@ function Quiz() {
     }, []);
 
     const quizView =
-        <div style={{ backgroundColor: "#191414", height:"100vh"}}>
+        <div style={{ backgroundColor: "#191414", height: "100vh" }}>
             <NavBar></NavBar>
             <Grid
                 container
@@ -78,7 +77,7 @@ function Quiz() {
                 justify="center"
                 alignContent="stretch"
                 alignItems="center"
-                style={{height:"100%",backgroundColor:"#191414"}}
+                style={{ height: "100%", backgroundColor: "#191414" }}
             >
                 <Grid item xs={12}>
                     <div className="quizNavigation">

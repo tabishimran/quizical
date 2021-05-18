@@ -1,36 +1,34 @@
-import React, { Dispatch, SetStateAction, useRef, useState } from 'react';
+import { useState } from 'react';
 import '../css/App.css';
-import QuizNav from './QuizNav';
-import Player from './Player';
-import { Card, CardActionArea, CardContent, Grid, Typography } from '@material-ui/core';
+import { Card, CardContent, Grid, Typography } from '@material-ui/core';
 
 
 interface questionProps {
     question: question,
-    nextQuestion: ()=>void,
-    incrementCorrectAnswers:()=>void,
-    setSongPlaying:()=>void
+    nextQuestion: () => void,
+    incrementCorrectAnswers: () => void,
+    setSongPlaying: () => void
 }
 
 function Question(props: questionProps) {
-    
+
     var question = props.question;
     const setPlaying = props.setSongPlaying;
     const nextQuestion = props.nextQuestion;
     const incrementCorrectAnswers = props.incrementCorrectAnswers;
-    const [answered,setAnswered] = useState(false);
+    const [answered, setAnswered] = useState(false);
 
 
-    const checkAnswer = function(each:string){
+    const checkAnswer = function (each: string) {
         setAnswered(true)
-        if(each==question.answer){
+        if (each === question.answer) {
             incrementCorrectAnswers();
         }
         setPlaying();
-        setTimeout(()=>{
+        setTimeout(() => {
             setAnswered(false);
             nextQuestion();
-        },1000);
+        }, 1000);
     }
 
     return (
@@ -39,7 +37,7 @@ function Question(props: questionProps) {
             direction="column"
             justify="center"
             alignItems="center"
-            style={{ textAlign: "center", height: '100%', marginTop: '2rem'}}
+            style={{ textAlign: "center", height: '100%', marginTop: '2rem' }}
         >
             <Grid item style={{ backgroundColor: "#191414" }}>
                 <Typography
@@ -65,20 +63,20 @@ function Question(props: questionProps) {
                 {question.options.map((each) => (
                     <Grid item style={{ margin: "1rem", height: "100%", textAlign: "center" }}>
                         <Card
-                            onClick={()=>{
+                            onClick={() => {
                                 checkAnswer(each);
                             }}
                             style={{
-                                backgroundColor: answered?each==question.answer?"#1DB954":"#2f2929":"#2f2929",
+                                backgroundColor: answered ? each === question.answer ? "#1DB954" : "#2f2929" : "#2f2929",
                                 height: "4rem",
                                 width: "13rem",
-                                textAlign:"center"
+                                textAlign: "center"
                             }}>
-                                <CardContent>
-                                    <Typography variant="body1" style={{ "color": "white" }}>
-                                        {each}
-                                    </Typography>
-                                </CardContent>
+                            <CardContent>
+                                <Typography variant="body1" style={{ "color": "white" }}>
+                                    {each}
+                                </Typography>
+                            </CardContent>
                         </Card>
                     </Grid>
                 ))};
