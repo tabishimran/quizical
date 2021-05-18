@@ -1,13 +1,13 @@
 const User = require('../models/user');
+const Album = require('../models/album');
+const Track = require('../models/track')
 import { ResponseToolkit } from 'hapi';
 const authenticatedRequest = require('../utils/authenticatedRequest');
 const pickRandomSongs = require('../utils/pickRandom');
 const UserQuiz = require('../models/userQuiz');
 const Quiz = require('../models/quiz');
 const md5 = require("md5");
-import {parseAlbum,parseTrack} from '../utils/parser';
-
-
+import { parseAlbum, parseTrack } from '../utils/parser';
 
 module.exports = async function getQuiz(request, reply: ResponseToolkit) {
     const artistId = request.query.artist;
@@ -15,7 +15,7 @@ module.exports = async function getQuiz(request, reply: ResponseToolkit) {
     const cached = await findQuiz(artistId,session);
     if(cached==undefined){
         const artistAlbums = await getAlbums(artistId, session)
-        const artistSongs = await getTracks(artistAlbums, session);
+        const artistSongs = await getTracks(artistId);
         const questions = await createQuestions(artistSongs);
         const quizObj = {
             artistId:artistId,
@@ -36,9 +36,7 @@ async function findQuiz(artistId, session) {
     const userURI = session.sid.id;
     const storedQuizzes = await Quiz.find({ artistId: artistId });
     var userQuizObject = await UserQuiz.findOne({ userId: userURI });
-    console.log("user quizzes : "+userQuizzes);
     if (!userQuizObject) {
-        console.log("no user quizzes, creating");
         const initialUserQuizData = { userId: userURI, quizzes: [] }
         const newUserQuizObj = new UserQuiz(initialUserQuizData);
         await newUserQuizObj.save();
@@ -46,9 +44,7 @@ async function findQuiz(artistId, session) {
     }
     else userQuizzes = userQuizObject.quizzes;
     if (storedQuizzes) {
-        console.log("inside stored quizzes");
         const newQuizzes = storedQuizzes.filter(function (each) { return !userQuizzes.some(elem => elem == each.id) })
-        console.log(newQuizzes.length);
         if (newQuizzes.length > 0) {
             quiz = newQuizzes.pop();
             await UserQuiz.findOneAndUpdate({ userId: userURI }, { quizzes: [...userQuizzes, quiz.id] })
@@ -58,51 +54,62 @@ async function findQuiz(artistId, session) {
 }
 
 async function getAlbums(artistId, session) {
+    const storedAlbums = await Album.find({ "artists.id": artistId });
     const data = await authenticatedRequest("https://api.spotify.com/v1/artists/" + artistId + "/albums?include_groups=album,single&market=from_token&limit=50", session, { method: 'GET' });
     const albums = parseAlbum(data);
+    const newAlbums = albums.filter(function (each) { return !storedAlbums.some(elem => elem.id == each.id) })
+    console.log("Found " + newAlbums.length + " new albums.")
+    for(let i =0;i<newAlbums.length;i++){
+        var tracks = await fetchAlbumTracks(newAlbums[i],session);
+        var album = new Album(albums[i]);
+        album.save();
+        tracks.map(function(track){
+            var track = new Track(track);
+            track.save();
+        })
+    }
     return albums;
 }
 
-async function getTracks(albums, session) {
-    var tracks = [];
-    for (var i = 0; i < albums.length; i++) {
-        var album = albums[i];
-        if (album.type == "single" || album.type == "album") {
-            const albumUri = album.uri.split(":")[2];
-            const url = "https://api.spotify.com/v1/albums/" + albumUri + "/tracks?market=from_token";
-            const songs = await authenticatedRequest(url, session, { method: 'GET' });
-            const songSet = songs.items.map(function(song){
-                song.album = album.name;
-                song.release = album.release;
-                song.albumType = album.type;
-                return song;
-            })
-            tracks = tracks.concat(songSet);
-        }
-    }
-    const trackSet = parseTrack(tracks);
-    return trackSet;
+async function fetchAlbumTracks(album, session) {
+    const url = "https://api.spotify.com/v1/albums/" + album.id + "/tracks?market=from_token";
+    var tracks = await authenticatedRequest(url, session, { method: 'GET' });
+    var trackList = tracks.items.map(function (track) {
+            track.album = album.name,
+            track.release = album.release,
+            track.albumId = album.id;
+            track.albumType = album.type;
+	    return track;
+    })
+    trackList = parseTrack(trackList);
+    return trackList;
+}
+
+
+async function getTracks(artistId) {
+    const trackList = await Track.find({"artists.id":artistId});
+    return trackList;
 }
 
 // currently only creates identify type questions
 async function createQuestions(artistSongs) {
     var numberOfQuestions = 10;
     var numberOfOptions = 4;
-    var trackList = pickRandomSongs(artistSongs,numberOfQuestions);
-    var questions = trackList.map(function(track){
-        var options = pickRandomSongs(artistSongs,4)
-        options = options.filter(option=> option.name!=track.name)
-        if(options.length==4) options.pop();
+    var trackList = pickRandomSongs(artistSongs, numberOfQuestions);
+    var questions = trackList.map(function (track) {
+        var options = pickRandomSongs(artistSongs, 4)
+        options = options.filter(option => option.name != track.name)
+        if (options.length == 4) options.pop();
         options = options.concat(track)
-        options = options.map((track)=>{
+        options = options.map((track) => {
             return track.name
         })
-        options.sort(()=>Math.random()-0.5);
+        options.sort(() => Math.random() - 0.5);
         return {
-            question:"Identify the song",
-            answer:track.name,
-            audio:track.preview,
-            options:options
+            question: "Identify the song",
+            answer: track.name,
+            audio: track.preview,
+            options: options
         }
     })
     return questions;
